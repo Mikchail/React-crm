@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-
+import {logout as logoutFromFirebase} from "../../features/counter/authSlice"
 interface NavbarProps {
   toggleMenu: (e: React.SyntheticEvent) => void;
 }
@@ -15,6 +16,7 @@ export const getDateTime = (time: Date) => {
 
 
 const NavBar = (props: NavbarProps) => {
+  const dispatch = useDispatch();
   const [date, setDate] = useState<Date>(new Date())
   const route = useHistory();
   const dropDownRef = useRef<HTMLAnchorElement>(null)
@@ -36,8 +38,8 @@ const NavBar = (props: NavbarProps) => {
 
   const logout = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("logout");
-    route.push("/login")
+    dispatch(logoutFromFirebase())
+    route.push("/login?message=logout")
   }
   return (
     <nav className="navbar orange lighten-1">
