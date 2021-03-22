@@ -4,7 +4,7 @@ import "firebase/database";
 
 
 const firebaseConfig = {
-
+  
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

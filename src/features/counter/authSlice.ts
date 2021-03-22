@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../../app/store';
 import { fireAuth, fireDatabase } from "../../firebase"
 interface IUser {
-  email: string;
+  name: string;
+  bill: number;
 }
 
 
@@ -29,13 +30,13 @@ const getUid = () => {
 
 export const login = createAsyncThunk("user/login", async ({ email, password }: IUserDTO, { dispatch }) => {
   try {
-    const user = await fireAuth.signInWithEmailAndPassword(email, password)
-    return user;
+    await fireAuth.signInWithEmailAndPassword(email, password)
+    const uid = getUid();
+    const userInfo = (await fireDatabase.ref(`users/${uid}/info`).once("value")).val()
+    return userInfo;
   } catch (error) {
-    // let error = await e.json()
     console.log(error);
-    
-    dispatch(authSlice.actions.error(error.message));
+
     throw error;
   }
 });
@@ -43,7 +44,7 @@ export const login = createAsyncThunk("user/login", async ({ email, password }: 
 export const register = createAsyncThunk("user/register", async ({ email, password, name }: IUserDTO, { dispatch }) => {
   try {
     const user = await fireAuth.createUserWithEmailAndPassword(email, password)
-    const uid = await getUid();
+    const uid = getUid();
     await fireDatabase.ref(`users/${uid}/info`).set({
       bill: 1000,
       name
@@ -65,19 +66,20 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: state => {
-      state.user = { email: "test@we.we" }
-    },
+    // login: (state, action) => {
+    //   state.user = action.payload.user;
+    // },
     error: (state, action) => {
       state.userError = action.payload
     },
   },
   extraReducers: {
-    [login.fulfilled.toString()]: (state, action) => {
+    [login.fulfilled.type]: (state, action) => {
+      console.log(action.payload);
+
       state.user = action.payload;
     },
-    [login.rejected.toString()]: (state, action) => {
-      authSlice.caseReducers.error(state,action)
+    ["login.rejected"]: (state, action) => {
       throw new Error(action.payload);
     },
     [logout.fulfilled.toString()]: (state) => {
@@ -88,10 +90,10 @@ export const authSlice = createSlice({
       state.userError = action
       throw new Error("no user");
     },
-    [register.fulfilled.toString()]: (state, action) => {
-      state.user = action
+    ["register.fulfilled"]: (state, action) => {
+      state.user = action.payload
     },
-    [register.rejected.toString()]: (state, action) => {
+    ["register.rejected"]: (state, action) => {
       state.userError = action
       throw new Error("no user");
     },

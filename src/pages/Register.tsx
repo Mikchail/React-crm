@@ -31,6 +31,7 @@ const Register = () => {
         validatePassword(values.password) !== undefined
       ) {
         alert('You need to type the real email')
+        return;
       }
 
       console.log(values);

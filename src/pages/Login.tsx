@@ -23,6 +23,7 @@ const Login = () => {
         validatePassword(values.password) !== undefined
       ) {
         alert('You need to type the real email')
+        return
       }
       try {
         await dispatch(login({ email: values.email, password: values.password }))

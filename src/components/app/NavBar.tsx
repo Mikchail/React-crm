@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import {logout as logoutFromFirebase} from "../../features/counter/authSlice"
+import { logout as logoutFromFirebase } from "../../features/counter/authSlice"
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 interface NavbarProps {
   toggleMenu: (e: React.SyntheticEvent) => void;
 }
@@ -10,12 +11,13 @@ export const getDateTime = (time: Date) => {
   const options = {
     hour: 'numeric', minute: 'numeric', second: 'numeric',
   };
-  const optionsArray = ["hour","minute"]
-  return new Intl.DateTimeFormat("ru-RU", {hour: 'numeric', minute: 'numeric', second: 'numeric',day: '2-digit', month: '2-digit'}).format(time)
+  const optionsArray = ["hour", "minute"]
+  return new Intl.DateTimeFormat("ru-RU", { hour: 'numeric', minute: 'numeric', second: 'numeric', day: '2-digit', month: '2-digit' }).format(time)
 };
 
 
 const NavBar = (props: NavbarProps) => {
+  const user = useTypedSelector((state) => state.auth.user)
   const dispatch = useDispatch();
   const [date, setDate] = useState<Date>(new Date())
   const route = useHistory();
@@ -54,8 +56,8 @@ const NavBar = (props: NavbarProps) => {
         <ul className="right hide-on-small-and-down">
           <li>
             <a ref={dropDownRef} className="dropdown-trigger black-text" href="#" data-target="dropdown">
-              USER NAME
-          <i className="material-icons right">arrow_drop_down</i>
+              {user?.name}
+              <i className="material-icons right">arrow_drop_down</i>
             </a>
 
             <ul id='dropdown' className='dropdown-content'>

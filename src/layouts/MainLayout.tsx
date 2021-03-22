@@ -2,12 +2,14 @@ import React, { ReactNode, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom"
 import NavBar from "../components/app/NavBar";
 import SideBar from "../components/app/SideBar";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 interface MainLayoutProps {
   children: ReactNode;
 }
 
 const MainLayout = (props: MainLayoutProps) => {
+ 
   const [isOpen, setOpen] = useState<boolean>(true);
   const toggleMenu = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -21,7 +23,6 @@ const MainLayout = (props: MainLayoutProps) => {
       <div className={`app-content ${!isOpen ? "full" : ""}`}>
         <div className="app-page">
           {props.children}
-
         </div>
       </div>
 
