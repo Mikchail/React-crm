@@ -1,11 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import { firebaseConfig } from "./env";
 
 
-const firebaseConfig = {
-  
-};
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 export const fireAuth = firebase.auth();

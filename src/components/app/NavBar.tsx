@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { logout as logoutFromFirebase } from "../../features/counter/authSlice"
+import { logout as logoutFromFirebase } from "../../reducers/authSlice"
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 interface NavbarProps {
   toggleMenu: (e: React.SyntheticEvent) => void;

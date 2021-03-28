@@ -1,10 +1,17 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import authSlice from '../features/counter/authSlice';
+import authSlice from '../reducers/authSlice';
+import moneySlice from '../reducers/moneySlice';
 
 export const store = configureStore({
+
   reducer: {
     auth: authSlice,
+    currency: moneySlice,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 });
 
 export type RootState = ReturnType<typeof store.getState>;

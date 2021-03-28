@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { login } from "../features/counter/authSlice";
+import { login } from "../reducers/authSlice";
 import EmptyLayout from "../layouts/EmptyLayout";
 import { validateEmail, validatePassword } from "../utils";
 

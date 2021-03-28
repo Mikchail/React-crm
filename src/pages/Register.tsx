@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { register } from "../features/counter/authSlice";
+import { register } from "../reducers/authSlice";
 import EmptyLayout from "../layouts/EmptyLayout";
 import { validateEmail, validatePassword, validateName } from "../utils";
 
