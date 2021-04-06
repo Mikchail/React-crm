@@ -34,9 +34,6 @@ const initialState: currency = {
 }
 export const fetchCurrency = createAsyncThunk("fixer/fetchCurrency", async (_, { dispatch }) => {
   try {
-    console.log(moneySlice);
-    
-    await new Promise(resolve => setTimeout(resolve, 2000))
     const currency = await fetch(`http://data.fixer.io/api/latest?access_key=${fixerKey}&symbols=USD,EUR,RUB`)
     return await currency.json()
   } catch (e) {

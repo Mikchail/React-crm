@@ -6,6 +6,7 @@ import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useDispatch } from "react-redux";
 import { fetchCurrency } from "../reducers/moneySlice";
 import Loader from "../components/app/Loader";
+import { loadCategories } from "../reducers/categorySlice";
 
 const Home = () => {
   const { currency, loading } = useTypedSelector((state) => state.currency)
@@ -16,6 +17,7 @@ const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     refresh();
+    dispatch(loadCategories());
   }, [])
   console.log(currency);
 

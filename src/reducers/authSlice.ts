@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk, RootState } from '../app/store';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fireAuth, fireDatabase } from "../firebase"
 interface IUser {
   name: string;
@@ -11,6 +10,7 @@ interface AuthState {
   user: IUser | null;
   userError: any;
   loading: boolean;
+  message: string | null;
 }
 
 interface IUserDTO {
@@ -23,9 +23,10 @@ const initialState: AuthState = {
   user: null,
   userError: null,
   loading: false,
+  message: null,
 };
 
-const getUid = () => {
+export const getUid = () => {
   const user = fireAuth.currentUser
   return user ? user.uid : null;
 }
@@ -77,9 +78,9 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // login: (state, action) => {
-    //   state.user = action.payload.user;
-    // },
+    setMessage: (state, action) => {
+      state.message = action.payload;
+    },
     error: (state, action) => {
       state.userError = action.payload
     },
@@ -120,7 +121,7 @@ export const authSlice = createSlice({
       state.loading = false;
       throw new Error("no user");
     },
-    [getUserInfo.fulfilled.type]: (state,action) => {
+    [getUserInfo.fulfilled.type]: (state, action) => {
       state.user = action.payload
       state.loading = false;
     },
@@ -134,3 +135,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { setMessage } = authSlice.actions

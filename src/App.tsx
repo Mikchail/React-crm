@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 import Register from './pages/Register';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from './hooks/useTypedSelector';
-import { authSlice, getUserInfo } from './reducers/authSlice';
+import { authSlice, getUserInfo, setMessage } from './reducers/authSlice';
 import { fireAuth } from './firebase';
 import Loader from './components/app/Loader';
 
@@ -31,7 +31,7 @@ function App() {
   const [tryToLogin, setTryToLogin] = useState<boolean>(false);
   const dispatch = useDispatch();
   const query = useQuery(location);
-  const { userError, user, loading } = useTypedSelector((state) => state.auth)
+  const { userError, user, loading, message } = useTypedSelector((state) => state.auth)
 
   useEffect(() => {
     fireAuth.onAuthStateChanged((userAuth) => {
@@ -51,8 +51,12 @@ function App() {
     if (userError) {
       M.toast({ html: userError })
     }
+    if (message) {
+      M.toast({ html: message })
+      dispatch(setMessage(null))
+    }
     dispatch(authSlice.actions.error(null))
-  }, [location, userError])
+  }, [location, userError, message])
 
   if (loading || !tryToLogin) {
     return <Loader />

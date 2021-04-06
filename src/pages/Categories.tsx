@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CategoryEdit from "../components/app/CategoryEdit";
 import CategoryCreate from "../components/app/CategoryCreate";
 import MainLayout from "../layouts/MainLayout";
+import { useDispatch } from "react-redux";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const Categories = () => {
+  const categories = useTypedSelector((state) => state.category.categories);
+  console.log(categories);
+  useEffect(() => {
+    M.updateTextFields();
+  }, [])
   return (
     <MainLayout>
       <div>
@@ -12,8 +19,8 @@ const Categories = () => {
         </div>
         <section>
           <div className="row">
-            <CategoryEdit />
             <CategoryCreate />
+            <CategoryEdit categories={categories}/>
           </div>
         </section>
       </div>

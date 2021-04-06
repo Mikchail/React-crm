@@ -22,7 +22,6 @@ const Register = () => {
       checkbox: false
     },
     onSubmit: (values, test) => {
-      console.log(test);
       test.setSubmitting(false)
       // handleSubmit();
       if (
@@ -34,7 +33,6 @@ const Register = () => {
         return;
       }
 
-      console.log(values);
       dispatch(register({ email: values.email, password: values.password, name: values.name }))
       // history.push("/")
 

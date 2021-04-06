@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import authSlice from '../reducers/authSlice';
+import categorySlice from '../reducers/categorySlice';
 import moneySlice from '../reducers/moneySlice';
 
 export const store = configureStore({
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer: {
     auth: authSlice,
     currency: moneySlice,
+    category: categorySlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
